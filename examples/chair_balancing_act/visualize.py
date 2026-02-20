@@ -1,7 +1,10 @@
+import os
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.patches import FancyBboxPatch, Circle, Arc
 import numpy as np
+
+_DIR = os.path.dirname(os.path.abspath(__file__))
 
 fig, axes = plt.subplots(1, 3, figsize=(16, 6))
 fig.suptitle("Chair Balancing Act", fontsize=16, fontweight="bold", y=0.98)
@@ -140,7 +143,7 @@ for r in [5, 7.5, 10]:
 ax.text(-15, 22, "sound", fontsize=7, color="#cc8833", style="italic", ha="center")
 
 plt.tight_layout()
-plt.savefig("/Users/yoel/Desktop/product_ideas/chair_balancing_act/chair_balancing_act_visual.png",
+plt.savefig(os.path.join(_DIR, "chair_balancing_act_visual.png"),
             dpi=180, bbox_inches="tight", facecolor="white")
 plt.close()
 print("Saved.")

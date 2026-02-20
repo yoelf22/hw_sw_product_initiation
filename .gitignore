@@ -1,1 +1,22 @@
+# Generated images
 *.png
+
+# Generated presentations and PDFs (re-generate with build_*.py scripts)
+*.pptx
+*.pdf
+
+# macOS
+.DS_Store
+
+# Private projects (local only)
+chillstream/
+
+# Claude Code local config
+.claude/
+
+# Office temp files
+~$*
+
+# Python
+__pycache__/
+*.pyc

@@ -4,7 +4,7 @@
 
 #### What It Is
 
-A clip-on device that plays escalating audio feedback when a chair tilts. A small MCU reads an accelerometer, filters out fidgeting, maps sustained tilt to audio zones, and triggers sound clips on a playback IC. Balanced = silence. Tilting = sounds. More tilt = louder, more urgent, or funnier. Part safety device, part office prank.
+A clip-on device that plays continuously escalating audio when a chair tilts. A small MCU reads an accelerometer, filters out fidgeting, and drives a proportional audio response: static balance (all legs down) is silent; the moment any leg lifts, a pleasant low tone begins and rises continuously in pitch, volume, and urgency as tilt increases, reaching maximum alarm just before the fall point. Part safety device, part office prank.
 
 #### Block Diagram
 
@@ -34,18 +34,17 @@ A clip-on device that plays escalating audio feedback when a chair tilts. A smal
 | Subsystem | Purpose | Domain |
 |-----------|---------|--------|
 | Accelerometer | Measure tilt angle on pitch and roll axes | HW |
-| MCU + firmware | Read accelerometer, filter transients from sustained tilt, map angle to audio zone, auto-calibrate baseline on power-up | FW |
-| Audio playback IC + speaker | Store sound clips in flash, play the clip the MCU selects for the current tilt zone | HW |
+| MCU + firmware | Read accelerometer, filter transients from sustained tilt, compute continuous tilt-to-audio mapping, drive audio output proportionally, auto-calibrate baseline on power-up | FW |
+| Audio output (DAC/PWM + speaker) | Generate continuous tone whose pitch, volume, and timbre scale with tilt angle — from pleasant hum at first lift to urgent alarm near fall | HW+FW |
 | Power (CR2450 coin cell) | Run the device for months — MCU sleeps between accelerometer wake interrupts, user-replaceable cell | HW |
-| Button | On/off, mode cycle (serious / comedic / stealth) | HW |
+| Button | On/off, mode cycle (tone character: serious / comedic / stealth) | HW |
 
 #### Key Interfaces
 
 | From → To | What Crosses | Protocol / Medium |
 |-----------|-------------|-------------------|
 | Accelerometer → MCU | Tilt data + wake interrupt | I2C + GPIO interrupt |
-| MCU → Audio playback IC | Clip selection trigger (which zone, which mode) | GPIO lines |
-| Audio IC → Speaker | Amplified audio signal | Direct drive or class-D amp |
+| MCU → Speaker | Continuous tone generation — pitch/volume mapped to tilt angle | PWM or DAC + small class-D amp |
 | Button → MCU | Mode select, power toggle | GPIO |
 
 #### Attachment
@@ -109,16 +108,16 @@ About the size of an AirTag. Mounts flat and hidden under a chair seat.
 
 #### Three Hardest Problems
 
-1. **Getting the thresholds right for different chairs:** Office chairs, dining chairs, and classroom chairs have different resting angles and tilt ranges. Fixed thresholds may be too sensitive on one chair and dead on another. May need a brief calibration step (hold button for 3s = "this is level") or self-calibrating baseline on power-up.
+1. **Getting the tilt-to-sound curve right for different chairs:** School chairs and dining chairs have different resting angles and fall points. The continuous escalation curve must feel natural across chair types — starting gently at first lift and reaching peak urgency just before the fall point, not too early (annoying) or too late (useless). Needs auto-calibration on power-up and playtesting across 5+ chair types.
 
-2. **Filtering fidgeting from tilting:** Sitting down, crossing legs, and leaning to grab something all move the accelerometer. The device must only trigger on sustained tilt, not transient motion — a short time-delay or low-pass filter on the interrupt, but without adding enough latency to kill the comedy timing.
+2. **Filtering fidgeting from tilting:** Sitting down, crossing legs, and leaning to grab something all move the accelerometer. The device must only trigger on sustained tilt (dynamic balance — legs in the air), not transient motion — but without adding enough latency to make the continuous tone feel disconnected from the physical tilt.
 
-3. **Making it actually funny:** The audio clips and their escalation curve are the product. Hardware is trivial — the sound design and tilt-to-sound mapping are what make it a good gift or a returned one. Needs real-world playtesting, not just engineering.
+3. **Designing the continuous tone escalation:** The tilt-to-audio mapping IS the product. The tone must be agreeable at low tilt (you don't mind hearing it) and unmistakably urgent near the fall point. This is a sound design + firmware tuning problem — needs real-world playtesting with kids, not just engineering.
 
 #### Open Calls
 
 | Decision | Options | Deadline |
 |----------|---------|----------|
 | MCU selection | ATtiny (cheapest, bare-metal) vs. STM32L0 (more GPIO, low power) vs. nRF52 (overkill now, but BLE-ready if app added later) | Before schematic |
-| Audio content | Pre-loaded fixed set vs. USB-swappable clips vs. multiple built-in modes | Before audio IC selection |
+| Audio generation | MCU-generated continuous tone (PWM/DAC) vs. hybrid (MCU tone + audio IC for mode-specific character) | Before schematic |
 | Attachment | Under-seat adhesive (primary) + chair-leg clamp accessory — needs prototype testing on 5+ chair types | Before enclosure design |
