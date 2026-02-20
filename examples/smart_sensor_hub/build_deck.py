@@ -100,19 +100,24 @@ slide = prs.slides.add_slide(prs.slide_layouts[6])
 add_bg(slide)
 add_shape(slide, Inches(0), Inches(0), W, Inches(0.06), ACCENT_TEAL)
 
-t = tb(slide, Inches(1), Inches(1.5), Inches(11), Inches(1.5))
+t = tb(slide, Inches(0.8), Inches(1.2), Inches(5.5), Inches(1.5))
 set_text(t.text_frame, "AirSense", size=56, color=WHITE, bold=True)
 add_p(t.text_frame, "Indoor Environment Monitor",
       size=26, color=ACCENT_TEAL, before=Pt(12))
 
-t2 = tb(slide, Inches(1), Inches(3.8), Inches(9), Inches(1.5))
+t2 = tb(slide, Inches(0.8), Inches(3.5), Inches(5.5), Inches(2.0))
 tf = t2.text_frame
 set_text(tf, "Room-level CO2, temperature, humidity, and particulate matter.", size=22, color=LIGHT_GRAY)
 add_p(tf, "Battery-powered BLE sensor nodes. Per-floor gateways. Cloud dashboard.", size=18, color=LIGHT_GRAY, before=Pt(8))
 add_p(tf, "Replace complaint-driven HVAC management with data.", size=18, color=ACCENT_ORANGE, before=Pt(8))
 
+# System overview concept art — right side
+overview_img = os.path.join(_DIR, "System_Overview.png")
+if os.path.exists(overview_img):
+    slide.shapes.add_picture(overview_img, Inches(6.8), Inches(1.0), Inches(5.2), Inches(5.2))
+
 add_shape(slide, Inches(0), Inches(6.5), W, Inches(0.005), RGBColor(0x33, 0x33, 0x55))
-t3 = tb(slide, Inches(1), Inches(6.6), Inches(11), Inches(0.6))
+t3 = tb(slide, Inches(0.8), Inches(6.6), Inches(11), Inches(0.6))
 set_text(t3.text_frame, "Product Overview  |  Concept Stage  |  2026", size=14, color=LIGHT_GRAY)
 
 # ============================================================
@@ -174,14 +179,61 @@ set_text(t.text_frame,
          size=14, color=LIGHT_GRAY)
 
 # ============================================================
-# SLIDE 3: Sensor Node Deep Dive
+# SLIDE 3: Hardware Cross-Sections
 # ============================================================
 slide = prs.slides.add_slide(prs.slide_layouts[6])
 add_bg(slide)
 add_shape(slide, Inches(0), Inches(0), W, Inches(0.06), ACCENT_TEAL)
 
 t = tb(slide, Inches(0.8), Inches(0.4), Inches(11), Inches(0.8))
-set_text(t.text_frame, "Sensor Node", size=36, color=WHITE, bold=True)
+set_text(t.text_frame, "Inside the Hardware", size=36, color=WHITE, bold=True)
+
+# Left — sensor node cross-section
+node_img = os.path.join(_DIR, "Cross-Section — Sensor Node.png")
+if os.path.exists(node_img):
+    slide.shapes.add_picture(node_img, Inches(0.5), Inches(1.5), Inches(5.5), Inches(5.5))
+
+add_shape(slide, Inches(0.5), Inches(1.15), Inches(5.5), Inches(0.35), ACCENT_TEAL)
+t = tb(slide, Inches(0.65), Inches(1.18), Inches(5.2), Inches(0.3))
+set_text(t.text_frame, "SENSOR NODE  (1 per room)", size=13, color=WHITE, bold=True)
+
+# Right — gateway cross-section
+gw_img = os.path.join(_DIR, "Cross-Section — Gateway.png")
+if os.path.exists(gw_img):
+    slide.shapes.add_picture(gw_img, Inches(6.5), Inches(1.5), Inches(6.3), Inches(3.9))
+
+add_shape(slide, Inches(6.5), Inches(1.15), Inches(6.3), Inches(0.35), ACCENT_BLUE)
+t = tb(slide, Inches(6.65), Inches(1.18), Inches(6.0), Inches(0.3))
+set_text(t.text_frame, "GATEWAY  (1 per floor)", size=13, color=WHITE, bold=True)
+
+# Key specs below gateway image
+gw_specs = [
+    ("MCU", "ESP32-S3 (BLE + WiFi + Ethernet MAC)"),
+    ("Uplink", "100 Mbps Ethernet, MQTT over TLS"),
+    ("Power", "Mains-powered via USB-C, always on"),
+    ("Capacity", "Scans up to 50 BLE sensor nodes"),
+]
+
+for i, (label, value) in enumerate(gw_specs):
+    y = Inches(5.6) + Inches(0.38) * i
+    bg = CARD_BG if i % 2 == 0 else CARD_BG_ALT
+    add_shape(slide, Inches(6.5), y, Inches(6.3), Inches(0.32), bg)
+
+    t = tb(slide, Inches(6.65), y + Inches(0.04), Inches(1.2), Inches(0.22))
+    set_text(t.text_frame, label, size=10, color=ACCENT_BLUE, bold=True)
+
+    t = tb(slide, Inches(7.9), y + Inches(0.04), Inches(4.7), Inches(0.22))
+    set_text(t.text_frame, value, size=10, color=SOFT_WHITE)
+
+# ============================================================
+# SLIDE 4: Sensor Node Deep Dive
+# ============================================================
+slide = prs.slides.add_slide(prs.slide_layouts[6])
+add_bg(slide)
+add_shape(slide, Inches(0), Inches(0), W, Inches(0.06), ACCENT_TEAL)
+
+t = tb(slide, Inches(0.8), Inches(0.4), Inches(11), Inches(0.8))
+set_text(t.text_frame, "Sensor Node — Components & Power", size=36, color=WHITE, bold=True)
 
 # Left — sensors
 add_shape(slide, Inches(0.8), Inches(1.5), Inches(5.8), Inches(0.5), ACCENT_TEAL)

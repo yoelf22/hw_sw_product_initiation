@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Build AirSense High-Level System Design deck — executive summary format.
 
-4 slides mirroring the single-page hw_sw_high_level document:
-  1. What It Is + Block Diagram image
-  2. Subsystems + Key Interfaces + Constraints
-  3. Fundamental HW Problems + Component Choice Architecture
-  4. Three Hardest Problems + Open Calls
+5 slides mirroring the single-page hw_sw_high_level document:
+  1. System Overview — concept art + product description
+  2. System Architecture — block diagram + hardware cross-sections
+  3. Subsystems + Key Interfaces + Constraints
+  4. Fundamental HW Problems + Component Choice Architecture
+  5. Three Hardest Problems + Open Calls
 """
 
 import os
@@ -84,7 +85,7 @@ def section_hdr(slide, l, t, w, label, c):
 
 
 # ================================================================
-# SLIDE 1 — What It Is + Block Diagram
+# SLIDE 1 — System Overview (concept art + description)
 # ================================================================
 sl = prs.slides.add_slide(prs.slide_layouts[6]); bg(sl)
 strip(sl, 0, 0, W, TEAL)
@@ -95,29 +96,98 @@ txt(sl, Inches(0.8), Inches(0.35), Inches(11), Inches(0.6),
 txt(sl, Inches(0.8), Inches(0.85), Inches(11), Inches(0.3),
     "Single-page executive summary  |  Draft  |  2026-02-20", 12, GRAY)
 
-# "What It Is" card
-box(sl, Inches(0.8), Inches(1.4), Inches(11.7), Inches(1.6), CARD)
-accent(sl, Inches(0.8), Inches(1.4), Inches(1.6), TEAL)
-txt(sl, Inches(1.1), Inches(1.5), Inches(11), Inches(0.3),
-    "WHAT IT IS", 11, TEAL, True)
-txt(sl, Inches(1.1), Inches(1.85), Inches(11.2), Inches(1.0),
+# System overview concept art — left half
+overview_img = os.path.join(_DIR, "System_Overview.png")
+if os.path.exists(overview_img):
+    sl.shapes.add_picture(overview_img, Inches(0.8), Inches(1.5), Inches(5.5), Inches(5.5))
+
+# "What It Is" card — right half
+box(sl, Inches(6.8), Inches(1.5), Inches(5.7), Inches(2.4), CARD)
+accent(sl, Inches(6.8), Inches(1.5), Inches(2.4), TEAL)
+txt(sl, Inches(7.1), Inches(1.6), Inches(5.2), Inches(0.3),
+    "WHAT IT IS", 12, TEAL, True)
+txt(sl, Inches(7.1), Inches(2.0), Inches(5.2), Inches(1.7),
     "A wireless indoor environment monitor that tracks CO2, temperature, humidity, and particulate matter "
     "per room in commercial offices. Battery-powered BLE sensor nodes communicate to per-floor Ethernet "
     "gateways, which forward data to a cloud backend serving a web dashboard for facility managers. "
     "Replaces complaint-driven HVAC management with room-level data and historical trends.",
     13, SOFT)
 
-# Block diagram image
-img_path = os.path.join(_DIR, "AirSense_Block_Diagram.png")
-if os.path.exists(img_path):
-    iw = Inches(11.7)
-    ih = Inches(4.1)
-    sl.shapes.add_picture(img_path, Inches(0.8), Inches(3.2), iw, ih)
+# Key facts — right half below description
+box(sl, Inches(6.8), Inches(4.15), Inches(5.7), Inches(2.8), CARD)
+accent(sl, Inches(6.8), Inches(4.15), Inches(2.8), BLUE)
+txt(sl, Inches(7.1), Inches(4.25), Inches(5.2), Inches(0.3),
+    "AT A GLANCE", 12, BLUE, True)
+
+facts = [
+    ("Deployment", "10-200 rooms per building, self-installed magnetic mount"),
+    ("Three tiers", "Battery sensor nodes -> Ethernet gateways -> cloud dashboard"),
+    ("Battery life", ">12 months on 2x AA lithium (mount and forget)"),
+    ("Key sensors", "CO2 (SCD41), temp/humidity (SHT40), PM (PMSA003I)"),
+    ("Connectivity", "BLE 5.3 advertising -> MQTT/TLS over Ethernet"),
+    ("Target cost", "<$35 sensor node, <$40 gateway at 1k units"),
+]
+
+for i, (label, value) in enumerate(facts):
+    y = Inches(4.65) + Inches(0.35) * i
+    bgc = CARD if i % 2 == 0 else CARD2
+    txt(sl, Inches(7.1), y, Inches(1.6), Inches(0.25),
+        label, 10, TEAL, True)
+    txt(sl, Inches(8.8), y, Inches(3.5), Inches(0.25),
+        value, 10, SOFT)
 
 # Footer
 txt(sl, Inches(0.8), Inches(7.1), Inches(11), Inches(0.3),
     "HIGH-LEVEL DESIGN  |  Not a PRD  |  Details in system_description_smart_sensor_hub.md",
     10, GRAY)
+
+
+# ================================================================
+# SLIDE 2 — Block Diagram + Cross-Section
+# ================================================================
+sl = prs.slides.add_slide(prs.slide_layouts[6]); bg(sl)
+strip(sl, 0, 0, W, BLUE)
+
+txt(sl, Inches(0.8), Inches(0.35), Inches(11), Inches(0.6),
+    "System Architecture", 32, WHITE, True)
+
+# Block diagram — top
+img_path = os.path.join(_DIR, "AirSense_Block_Diagram.png")
+if os.path.exists(img_path):
+    sl.shapes.add_picture(img_path, Inches(0.8), Inches(1.2), Inches(8.0), Inches(3.9))
+
+# Sensor node cross-section — right
+node_img = os.path.join(_DIR, "Cross-Section — Sensor Node.png")
+if os.path.exists(node_img):
+    sl.shapes.add_picture(node_img, Inches(9.2), Inches(1.2), Inches(3.5), Inches(3.5))
+
+# Gateway cross-section — bottom right
+gw_img = os.path.join(_DIR, "Cross-Section — Gateway.png")
+if os.path.exists(gw_img):
+    sl.shapes.add_picture(gw_img, Inches(9.2), Inches(4.9), Inches(3.5), Inches(2.2))
+
+# Labels for cross-sections
+box(sl, Inches(9.2), Inches(4.6), Inches(3.5), Inches(0.3), CARD)
+txt(sl, Inches(9.3), Inches(4.62), Inches(3.3), Inches(0.25),
+    "SENSOR NODE", 10, TEAL, True, PP_ALIGN.CENTER)
+
+box(sl, Inches(9.2), Inches(7.1), Inches(3.5), Inches(0.3), CARD)
+txt(sl, Inches(9.3), Inches(7.12), Inches(3.3), Inches(0.25),
+    "GATEWAY", 10, BLUE, True, PP_ALIGN.CENTER)
+
+# Architecture summary — bottom left
+box(sl, Inches(0.8), Inches(5.3), Inches(8.0), Inches(1.8), CARD)
+accent(sl, Inches(0.8), Inches(5.3), Inches(1.8), TEAL)
+txt(sl, Inches(1.1), Inches(5.4), Inches(7.5), Inches(0.3),
+    "THREE-TIER ARCHITECTURE", 12, TEAL, True)
+
+tf = txt(sl, Inches(1.1), Inches(5.8), Inches(7.5), Inches(1.2),
+    "Sensor nodes (1 per room) wake every 5 minutes, read sensors, and broadcast a 20-byte BLE "
+    "advertisement. Gateways (1 per floor) passively scan BLE and forward aggregated readings to "
+    "the cloud via MQTT over Ethernet.", 11, SOFT)
+add_p(tf, "Data flows one direction: sensor -> gateway -> cloud -> dashboard. "
+    "OTA firmware updates reverse the path: cloud -> gateway -> BLE DFU to sleeping nodes.",
+    11, GRAY, before=Pt(8))
 
 
 # ================================================================
