@@ -4,20 +4,23 @@
 
 This workflow is for products where physical hardware and software (firmware, companion apps, cloud services) must be designed together. The key challenge: hardware and software have different iteration speeds, different risk profiles, and different teams — but they share interfaces, constraints, and a single user experience.
 
-Three phases:
+Four phases:
 
 1. **Explore** — Map the hardware/software boundary and identify knowledge gaps
-2. **Describe** — Write the system description iteratively, hardware and software in lockstep
-3. **Gate** — Validate completeness across both domains, then feed into PRD
+2. **High-Level Design** — Produce a single-page system overview: subsystems, interfaces, constraints, and hard problems
+3. **Describe** — Write the full system description iteratively, hardware and software in lockstep
+4. **Gate** — Validate completeness across both domains, then feed into PRD
 
-The system description sits between a product concept and a formal PRD. It captures the "what and how at system level" — subsystem architecture, interfaces, key decisions, and constraints. It is NOT the PRD. The PRD adds formal requirements, acceptance criteria, and priorities on top of the system description.
+The high-level design (`hw_sw_high_level.md`) is a single-page document that captures the major subsystems, their connections, and the hardest problems — without elaboration. It serves as an executive summary or a standalone artifact for early alignment. The full system description builds on it with detailed subsystem specifications, interface contracts, and power/connectivity architecture.
 
 ```
 Concept / Idea (physical product + software capabilities)
     ↓
 [Explore] Research comparable products, map HW/SW boundary, identify gaps
     ↓
-[Describe] System Description (this toolkit)
+[High-Level Design] Single-page overview — blocks, interfaces, constraints, hard problems
+    ↓
+[Describe] Full System Description (this toolkit)
     ↓
 [Gate] Completeness checklist + cross-discipline review
     ↓
@@ -37,7 +40,7 @@ PRD (formal requirements — split into HW, FW, SW, and integration tracks)
    - Does this require firmware running on embedded hardware?
    - Does this require a companion app, cloud service, or OTA update mechanism?
    - Where does the logic live — on-device, on-phone, or in the cloud?
-3. Review `skills_map.md`. For each of the 15 skill areas, ask: "Is this relevant to my product?" For relevant areas where you feel weak, note them — you'll need specialist input later. Pay special attention to areas that span the HW/SW boundary (connectivity, power management, sensor fusion).
+3. Review `skills_map.md`. For each of the 16 skill areas, ask: "Is this relevant to my product?" For relevant areas where you feel weak, note them — you'll need specialist input later. Pay special attention to areas that span the HW/SW boundary (connectivity, power management, sensor fusion).
 4. Research:
    - Look at comparable products (teardowns on iFixit, product pages, FCC filings)
    - Scan relevant datasheets for key components (MCU, sensors, connectivity modules)
@@ -49,7 +52,34 @@ PRD (formal requirements — split into HW, FW, SW, and integration tracks)
 
 ---
 
-## Phase 2: Describe (3-10 days)
+## Phase 2: High-Level Design (half day to 1 day)
+
+**Goal:** Produce a single-page system overview that captures the major pieces, how they connect, and what's hard — before investing days in the full system description.
+
+**Process:** Follow `hw_sw_high_level.md`. It contains the template and process guidance.
+
+**What you produce:**
+- A 2-3 sentence product description
+- A block diagram with 4-8 blocks (hardware, firmware, app, cloud) and labeled arrows
+- A subsystem table — name and one-line purpose only, no elaboration
+- Key interfaces with protocols
+- 3-6 hard constraints that eliminate design options
+- The 3 hardest problems
+- 2-4 open decisions that block detailed design
+
+**Why this step matters:**
+- Forces early clarity on the HW/SW boundary before you're deep in details
+- Gives executives and partners something to react to in 5 minutes
+- Acts as a sanity check — if the high-level design doesn't hold together, the details won't either
+- Becomes the executive summary of the full system description
+
+**When to skip:** Only if you've built this exact type of product before and the architecture is obvious. Even then, the single page is useful for alignment.
+
+**Output:** A single-page high-level system design, reviewed by at least one hardware and one software person.
+
+---
+
+## Phase 3: Describe (3-10 days)
 
 **Goal:** Write a complete system description that covers hardware, firmware, software, and — most importantly — their interfaces.
 
@@ -89,7 +119,7 @@ Work through sections in this order. Each section builds on the previous ones:
 
 ---
 
-## Phase 3: Gate (1-2 days)
+## Phase 4: Gate (1-2 days)
 
 **Goal:** Validate the system description is complete enough to drive PRD creation — for both hardware and software tracks.
 
@@ -153,6 +183,7 @@ For software-augmented hardware, the PRD typically splits into parallel tracks t
 | What | Where | When |
 |------|-------|------|
 | Assess your skills | `skills_map.md` | Phase 1 |
-| Write the description | `templates/system_description_template.md` | Phase 2 |
-| Validate completeness | `checklist.md` | Phase 3 |
+| Single-page system overview | `hw_sw_high_level.md` | Phase 2 |
+| Write the full description | `templates/system_description_template.md` | Phase 3 |
+| Validate completeness | `checklist.md` | Phase 4 |
 | See a worked example | `examples/smart_sensor_hub.md` | Any time |
