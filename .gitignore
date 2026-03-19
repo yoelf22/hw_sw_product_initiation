@@ -1,9 +1,19 @@
-# Generated images
-*.png
+# Generated output (re-generate with build_*.py scripts)
+output/**/*.png
+output/**/*.pptx
+output/**/*.pdf
 
-# Generated presentations and PDFs (re-generate with build_*.py scripts)
+# Ignore generated images outside examples/
+*.png
+!examples/**/*.png
+
+# Ignore generated presentations outside examples/
 *.pptx
+!examples/**/*.pptx
+
+# Ignore generated PDFs outside examples/
 *.pdf
+!examples/**/*.pdf
 
 # macOS
 .DS_Store
