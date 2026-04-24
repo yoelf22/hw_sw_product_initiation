@@ -27,6 +27,10 @@ chillstream/
 # Office temp files
 ~$*
 
+# Blog post and press release (local drafts)
+BLOG_POST.md
+PRESS_RELEASE.md
+
 # Python
 __pycache__/
 *.pyc
