@@ -2,6 +2,19 @@
 
 All notable changes to Electrum are documented here.
 
+## v0.1.0 — 2026-05-28
+
+First tagged release. Bundles everything below and adds:
+
+- **Bubbler walkthrough** — soup-to-nuts worked example (`examples/bubbler-automated-soap-bubble-maker/`) showing what each of the 8 phases surfaces, with a `WALKTHROUGH.md` narrative.
+- **Pop miniature popcorn machine** — second full-coverage example added to `examples/`.
+- **PM quickstart** — README opens with a 3-step quickstart aimed at hardware PMs and product strategists.
+- **Project hygiene** — added `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md` (Contributor Covenant v2.1), `SECURITY.md`, issue templates (bug, feature), and PR template under `.github/`.
+- **Documentation alignment** — README workflow table now reflects the canonical 8 phases (Component Arrangement added, Phase 6 corrected to Product Visual). Removed stale references to ChatGPT/DALL-E image generation; Phase 6 picks an existing diagram, no 3rd-party image services.
+- **Security cleanup** — removed `generate_nanobanana.py` (contained an exposed API key).
+
+MIT-licensed. Python 3.11+. See [README](README.md) for setup.
+
 ## 2026-02-25
 
 - **Use local visuals in carousel** — Phase 6 now uses existing arrangement/block diagrams instead of generating images via ChatGPT/DALL-E. No 3rd-party services needed.
