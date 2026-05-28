@@ -1,5 +1,7 @@
 # Electrum — Product Definition Toolkit for Software-Augmented Hardware
 
+*Status: v0.1 — exercised on 7 worked examples (see [`examples/`](examples/)), MIT-licensed.*
+
 ## The Problem
 
 Software PMs have established tools — user stories, PRDs, sprint planning. Pure hardware PMs have theirs — datasheets, BOMs, DFM checklists. But when the product is *both* — firmware-driven hardware with sensors, actuators, maybe an app, maybe cloud — most PMs either use a software PRD template that ignores physics, or a hardware spec that ignores the software.
