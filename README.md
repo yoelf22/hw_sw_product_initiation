@@ -38,13 +38,14 @@ It takes a product idea from "I think this could work" through to a structured s
 |-------|--------|-------------|
 | 1. **Explore** | `explore_notes.md` | Map the HW/SW boundary, identify knowledge gaps, surface risks |
 | 2. **High-Level Design** | `high_level_design.md` | Single-page system overview: blocks, interfaces, constraints, hardest problems |
-| 3. **System Description** | `system_description.md` | Full engineering-grade spec with real components, power budgets, firmware architecture |
-| 4. **Gate Checklist** | `gate_checklist.md` | Validate completeness across both domains (90 items, PASS/FAIL/N/A) |
-| 5. **Image Generation** | `cross_section_illustration_*.png` | Product illustrations via ChatGPT DALL-E (browser automation) |
-| 6. **PPTX Carousel** | `*_Carousel.pptx` | LinkedIn-format slide deck (4:5 portrait, dark theme, 8 pages) |
-| 7. **PDF Carousel** | `*_Carousel.pdf` | Same carousel as multi-page PDF |
+| 3. **Component Arrangement** | `component_arrangement.md`, `arrangement_options.png` | Spatial layout alternatives — where boards, batteries, sensors, and actuators sit relative to each other and the enclosure |
+| 4. **System Description** | `system_description.md` | Full engineering-grade spec with real components, power budgets, firmware architecture |
+| 5. **Gate Checklist** | `gate_checklist.md` | Validate completeness across both domains (90 items, PASS/FAIL/N/A) |
+| 6. **Product Visual** | `product_visual.png` | Pick an existing diagram from earlier phases (or a user-supplied image) as the carousel visual |
+| 7. **PPTX Carousel** | `*_Carousel.pptx` | LinkedIn-format slide deck (4:5 portrait, dark theme, 8 pages) |
+| 8. **PDF Carousel** | `*_Carousel.pdf` | Same carousel as multi-page PDF |
 
-Phases 1-4 produce the engineering definition. Phases 5-7 turn it into visual presentation materials.
+Phases 1-5 produce the engineering definition. Phases 6-8 turn it into visual presentation materials.
 
 ## Prerequisites
 
@@ -94,12 +95,12 @@ claude
 
 | File | What it does |
 |------|-------------|
-| `electrum/templates/hw_sw_product_initiation.md` | 7-phase workflow from concept to presentation |
+| `electrum/templates/hw_sw_product_initiation.md` | 8-phase workflow from concept to presentation |
 | `electrum/templates/hw_sw_high_level.md` | Single-page system overview template |
 | `electrum/templates/system_description_template.md` | Full system description template with HW↔SW boundary items |
 | `electrum/templates/checklist.md` | Gate checklist — 90 items, each tagged if it targets the HW/SW boundary |
 | `electrum/templates/skills_map.md` | 16 competency areas a PM should understand or staff for |
-| `.claude/skills/electrum/SKILL.md` | Claude Code skill definition (drives the 7-phase workflow) |
+| `.claude/skills/electrum/SKILL.md` | Claude Code skill definition (drives the 8-phase workflow) |
 
 ### Reference Scripts
 
