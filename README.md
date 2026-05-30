@@ -160,3 +160,16 @@ Hardware product managers and technical leads building products where physical h
 - You need documents that both an executive and an engineer can use
 - You want presentation-ready materials alongside the engineering spec
 - You've been burned before by HW/SW integration surprises at EVT
+
+---
+
+## Part of *Tangibles*
+
+Electrum is the open-source companion to **[Tangibles](https://tangibles-book.com)** — a book on building connected hardware your competitors can't copy. The book's companion site hosts an overview of Electrum plus a set of free, no-signup tools for connected-hardware teams:
+
+- **[Electrum overview](https://tangibles-book.com/tools/electrum)** — what this toolkit is, with worked examples
+- **[IoT Security Scorecard](https://tangibles-book.com/tools/iot-security-scorecard)** — grade your device against ETSI EN 303 645 / EU CRA
+- **[Security Requirements Generator](https://tangibles-book.com/tools/iot-security-requirements)** — a PRD-ready requirements list
+- **[Regulatory Landscape](https://tangibles-book.com/tools/regulatory-landscape)** — which frameworks bind your product, by market and archetype
+
+By [Yoel Frischoff](https://theroadtlv.com).
